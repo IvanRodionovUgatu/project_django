@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h2 align="center"> {{ text }} </h2>
+    {% for teacher in teachers %}
+        <h3  align="center"> {{ teacher.first_name }} {{ teacher.last_name }} </h3>
+
+
+    {% endfor %}
+</body>
+</html>
