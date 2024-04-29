@@ -1,1 +1,1 @@
-# project_django
+# Иван Родионов
