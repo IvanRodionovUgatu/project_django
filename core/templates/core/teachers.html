@@ -1,15 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
+{% extends 'core/base.html' %}
+
+{% block content %}
     <h2 align="center"> {{ text }} </h2>
-    {% for teacher in teachers %}
-        <h3  align="center"> {{ teacher.first_name }} {{ teacher.last_name }} </h3>
-
-
-    {% endfor %}
-</body>
-</html>
+    <div class="container">
+        <table class="table table-dark table-sm">
+            <thead>
+                <tr class="table-active">
+                    <th scope="col">№</th>
+                    <th scope="col">Имя преподавателя</th>
+                    <th scope="col">Фамилия преподавателя</th>
+                    <th scope="col">Кафедра</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for teacher in teachers %}
+                    <tr>
+                        <th scope="col"> {{ forloop.counter }} </th>
+                        <th scope="col"> {{ teacher.first_name }} </th>
+                        <th scope="col"> {{ teacher.last_name }} </th>
+                        <th scope="col"> {{ teacher.department }} </th>
+                    </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+    </div>
+{% endblock %}

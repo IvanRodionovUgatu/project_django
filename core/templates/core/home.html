@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h2 align="center"> {{ text }} </h2>
+{% extends 'core/base.html' %}
 
-    <h3 align="center">
-        <a href="{% url 'teachers' %}"> Список преподавателей </a>
-    </h3>
-
-    <h3 align="center">
-            <a href="{% url 'subjects' %}"> Список предметов </a>
-    </h3>
-
-    <h3 align="center">
-                <a href="{% url 'admin:index' %}"> Админка </a>
-    </h3>
-
-</body>
-</html>
+{% block content %}
+    <h3 align="center"> Приложение, которое помогает вам в закрытии сессии</h3>
+{% endblock %}

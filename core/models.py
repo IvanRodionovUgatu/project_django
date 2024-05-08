@@ -20,7 +20,7 @@ class Subject(models.Model):
     comment = models.TextField('Комментарий к предмету', blank=True)
     deadline = models.DateTimeField('Дедлайн', blank=True)
     count_lecture = models.PositiveIntegerField('Количество лекций')
-    count_seminar = models.PositiveIntegerField('количество практик')
+    count_seminar = models.PositiveIntegerField('Количество практик')
     count_laboratory_work = models.PositiveIntegerField('Количество лаб')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='преподаватель')
 
