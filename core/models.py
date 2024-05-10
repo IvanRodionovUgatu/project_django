@@ -1,11 +1,14 @@
+import os
+
 from django.db import models
 from django.db.models import CharField
 
 
 class Teacher(models.Model):
     first_name = models.CharField('Имя', max_length=100)
-    last_name = models.CharField('фамилия', max_length=100)
-    department = models.CharField('кафедра', max_length=100, blank=True)
+    last_name = models.CharField('Фамилия', max_length=100)
+    department = models.CharField('Кафедра', max_length=100, blank=True)
+    photo = models.ImageField('Фото', blank=True, upload_to='photos_teachers')
 
     class Meta:
         verbose_name = 'Преподаватель'

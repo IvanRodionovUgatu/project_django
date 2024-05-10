@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2 align="center"> {{ teacher.last_name }} {{ teacher.first_name}} </h2>
+    <div class="container">
+        <img src="{{ teacher.photo.url }}" alt="{{teacher.last_name}} {{ teacher.first_name }}" width="350" height="400">
+    </div>
+    <div class="container">
+        <h3> Кафедра: {{ teacher.department }} </h3>
+    </div>
+{% endblock %}
