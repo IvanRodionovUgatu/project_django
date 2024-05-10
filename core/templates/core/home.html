@@ -2,4 +2,9 @@
 
 {% block content %}
     <h3 align="center"> Приложение, которое помогает вам в закрытии сессии</h3>
+    <hr>
+    <h4 id="deadline" align="center"> Ближайший дедлайн по предмету:
+        <a href=" {% url 'subjects' %} "> {{ subject_deadline.0.name }} </a>
+    </h4>
+    <h3 align="center"> {{ subject_deadline.0.deadline }} </h3>
 {% endblock %}

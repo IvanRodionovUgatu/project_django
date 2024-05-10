@@ -7,8 +7,7 @@
             <thead>
                 <tr class="table-active">
                     <th scope="col">№</th>
-                    <th scope="col">Имя преподавателя</th>
-                    <th scope="col">Фамилия преподавателя</th>
+                    <th scope="col">Фамилия и имя преподавателя</th>
                     <th scope="col">Кафедра</th>
                 </tr>
               </thead>
@@ -16,8 +15,9 @@
                 {% for teacher in teachers %}
                     <tr>
                         <th scope="col"> {{ forloop.counter }} </th>
-                        <th scope="col"> {{ teacher.first_name }} </th>
-                        <th scope="col"> {{ teacher.last_name }} </th>
+                        <th scope="col">
+                            <a href="{% url 'teacher' id=teacher.id %}">{{ teacher.first_name}} {{ teacher.last_name }}</a>
+                        </th>
                         <th scope="col"> {{ teacher.department }} </th>
                     </tr>
                 {% endfor %}
