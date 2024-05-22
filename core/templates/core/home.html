@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+    {% if user.is_authenticated %}
+        <h3 align="center">Привет, {{ user.username }}!</h3>
+    {% endif %}
     <h3 align="center"> Приложение, которое помогает вам в закрытии сессии</h3>
     <hr>
     <h4 id="deadline" align="center"> Ближайший дедлайн по предмету:

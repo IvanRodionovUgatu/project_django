@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView
 
 from core import models
 
@@ -8,12 +8,15 @@ class Home(ListView):
     model = models.Subject
     context_object_name = 'subject_deadline'
     template_name = 'core/home.html'
-    extra_context = {
-        'text': 'Главная страница',
-        'title': 'Главная страница',
-    }
     def get_queryset(self):
         return self.model.objects.filter(deadline__isnull=False).order_by('deadline')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['text'] = 'Главная страница'
+        context['title'] = 'Главная страница'
+        context['user'] = self.request.user  # Передаем текущего пользователя
+        return context
 
 class Teachers(ListView):
     template_name = 'core/teachers.html'
@@ -48,3 +51,14 @@ class Teacher(DetailView):
         context['photo'] = photo
         context['title'] = f'{teacher.first_name} {teacher.last_name}'
         return context
+
+class Info(TemplateView):
+    template_name = 'core/info.html'
+    extra_context = {
+        'title': 'О нас'
+    }
+
+
+class Redirect(RedirectView):
+    query_string = True
+    url = 'https://itcodegroup.ru/'

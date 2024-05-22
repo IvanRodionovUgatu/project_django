@@ -1,0 +1,36 @@
+{% extends 'registration/base.html' %}
+
+{% block content %}
+    <h2 align="center">Вход</h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-error">
+                                {{ form.non_field_errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <small class="form-text text-danger">{{ form.username.errors }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password.label_tag }}
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <small class="form-text text-danger">{{ form.password.errors }}</small>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
