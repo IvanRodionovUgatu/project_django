@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h3 align="center">Редактирования профиля {{ user.username }}</h3>
+        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group" align="left">
+                                {{ form.bio.label }}
+                                {{ form.bio }}
+                            </div>
+                            <div class="form-group" align="left">
+                                {{ form.profile_picture.label_tag }}
+                                {{ form.profile_picture }}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    {% endif %}
+{% endblock %}

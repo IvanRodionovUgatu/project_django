@@ -1,8 +1,11 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-
 from core.views import *
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('teacher_rest', TeacherRest, basename='teacher_rest')
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
@@ -10,5 +13,7 @@ urlpatterns = [
     path('info/', Info.as_view(), name='info'),
     path('teachers/', Teachers.as_view(), name='teachers'),
     path('subjects/', Subjects.as_view(), name='subjects'),
+    path('subjects_rest/', SubjectRest.as_view(), name='subjects_rest'),
+    path('subjects_rest/<int:pk>/', SubjectRest.as_view(), name='subject_detail_rest'),
     path('teacher/<id>/', Teacher.as_view(), name='teacher'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + router.urls
