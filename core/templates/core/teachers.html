@@ -1,6 +1,30 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Поиск</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="get">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                {{ filters.form.as_p }}
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="btn btn-primary btn-block">Поиск</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <h2 align="center"> {{ text }} </h2>
     <div class="container">
         <table class="table table-dark table-sm">
