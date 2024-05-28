@@ -24,6 +24,17 @@
         </div>
     </div>
 
+    {% if user.is_authenticated %}
+
+        <div class="container mt-4 mb-4" align="center">
+            <a href="{% url 'add_subject' %}" class="btn btn-success">Создать предмет</a>
+        </div>
+    {% else %}
+        <div class="container mt-4 mb-4" align="center">
+            <a href="{% url 'registration' %}" class="btn btn-success">Зарегистрироваться, чтобы добавить предмет</a>
+        </div>
+    {% endif %}
+
 
 
     <h2 align="center"> {{ text }} </h2>
@@ -38,6 +49,7 @@
                     <th scope="col">Количество практик</th>
                     <th scope="col">Количество лаб</th>
                     <th scope="col">Преподаватель</th>
+                    <th scope="col">Действие</th>
                 </tr>
               </thead>
               <tbody>
@@ -50,6 +62,9 @@
                         <th scope="col"> {{ subject.count_seminar }} </th>
                         <th scope="col"> {{ subject.count_laboratory_work }} </th>
                         <th scope="col"> {{ subject.teacher }} </th>
+                        <td>
+                            <a href="{% url 'subject_delete' subject.pk %}" class="btn btn-danger">Удалить</a>
+                        </td>
                     </tr>
                 {% endfor %}
               </tbody>

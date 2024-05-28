@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h3 align="center">Удаление предмета</h3>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p>Вы уверены, что хотите удалить предмет "{{ object.name }}"?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <a href="{% url 'subjects' %}" class="btn btn-secondary">Отмена</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -22,3 +22,11 @@ h3 {
 .form-row {
     margin-bottom: 15px;
 }
+
+#profile {
+    margin-left: 20px;
+}
+
+#login {
+    color: #66EA9A;
+}

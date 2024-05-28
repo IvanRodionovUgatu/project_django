@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import CharField
 
@@ -30,6 +31,7 @@ class Subject(models.Model):
     count_seminar = models.PositiveIntegerField('Количество практик')
     count_laboratory_work = models.PositiveIntegerField('Количество лаб')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='преподаватель')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
     class Meta:
         verbose_name = 'Предмет'

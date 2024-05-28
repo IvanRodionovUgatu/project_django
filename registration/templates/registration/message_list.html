@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-8" align="left">
+        <a href="{% url 'user_list' %}" class="btn btn-primary">Назад</a>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title">Ваши сообщения</h5>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="media mb-3">
+                                <div class="media-body">
+                                    <p> {{ message.timestamp }}</p>
+                                    <h5 class="mt-0">{{ message.sender }}</h5>
+                                    <img src="{{ message.sender.profile_picture.url }}">
+                                    <p>{{ message.content }}</p>
+                                    <a href="{% url 'message_delete' pk=message.id %}" class="btn btn-danger">Удалить</a>
+                                    <hr>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8" align="center">
+            <a href="{% url 'send_message' pk=recipient_id %}" class="btn btn-success">Отправить сообщение</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
