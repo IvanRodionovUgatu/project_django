@@ -33,19 +33,27 @@
                     <th scope="col">№</th>
                     <th scope="col">Фамилия и имя преподавателя</th>
                     <th scope="col">Кафедра</th>
+                    <th scope="col">Действие</th>
                 </tr>
               </thead>
               <tbody>
                 {% for teacher in teachers %}
                     <tr>
-                        <th scope="col"> {{ forloop.counter }} </th>
-                        <th scope="col">
+                        <td scope="col"> {{ forloop.counter }} </td>
+                        <td scope="col">
                             <a href="{% url 'teacher' id=teacher.id %}">{{ teacher.first_name}} {{ teacher.last_name }}</a>
-                        </th>
-                        <th scope="col"> {{ teacher.department }} </th>
+                        </td>
+                        <td scope="col"> {{ teacher.department }} </td>
+                        <td>
+                            <a href="{% url 'teacher_delete' teacher.pk %}" class="btn btn-danger">Удалить</a>
+                        </td>
+
                     </tr>
                 {% endfor %}
               </tbody>
         </table>
+        <div class="container mt-4 mb-4" align="center">
+            <a href="{% url 'add_teacher' %}" class="btn btn-success">Добавить преподавателя</a>
+        </div>
     </div>
 {% endblock %}
