@@ -5,12 +5,19 @@
     <h2>Выберите пользователя для диалога</h2>
     <div class="list-group">
         {% for user in users %}
-        <a href="{% url 'message_list' pk=user.id %}" class="list-group-item list-group-item-action">
+       <a href="{% url 'profile' user_id=user.id %}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <div>
                     <h5 class="mb-1">{{ user.username }}</h5>
                     <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="img-thumbnail"
                          style="width: 150px; height: 150px; margin-top: 10px;">
+                </div>
+            </div>
+        </a>
+        <a href="{% url 'message_list' pk=user.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <div>
+                    Перейти к диалогу с {{ user.username }}
                 </div>
             </div>
         </a>

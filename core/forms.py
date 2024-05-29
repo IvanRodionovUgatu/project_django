@@ -17,3 +17,5 @@ class TeacherForm(forms.ModelForm):
     class Meta:
         model = models.Teacher
         fields = '__all__'
+
+

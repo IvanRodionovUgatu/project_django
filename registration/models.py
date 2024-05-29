@@ -7,8 +7,6 @@ class Profile(models.Model):
     bio = models.TextField('О себе', blank=True)
     profile_picture = models.ImageField('Фото профиля', upload_to='profile_pictures/', blank=True)
 
-    # Добавьте здесь другие поля, которые хотите хранить в профиле пользователя
-
     def __str__(self):
         return self.user.username
 
@@ -21,6 +19,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    post_picture = models.ImageField('Фото поста', upload_to='post_pictures/', blank=True)
 
     class Meta:
         verbose_name = 'Пост'

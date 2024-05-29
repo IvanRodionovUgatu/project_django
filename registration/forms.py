@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile, Message
+from .models import Profile, Message, Post, Comment
 
 
 class ProfileForm(forms.ModelForm):
@@ -11,4 +11,18 @@ class ProfileForm(forms.ModelForm):
 class SendMessageForm(forms.ModelForm):
     class Meta:
         model = Message
+        fields = ['content']
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content', 'post_picture']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите что-нибудь...'})
+        }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
         fields = ['content']

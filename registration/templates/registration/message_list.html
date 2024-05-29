@@ -18,15 +18,21 @@
                         {% for message in messages %}
                             <div class="media mb-3">
                                 <div class="media-body">
-                                    <p> {{ message.timestamp }}</p>
-                                    <h5 class="mt-0">{{ message.sender }}</h5>
-                                    <img src="{{ message.sender.profile_picture.url }}">
+                                    <p>{{ message.timestamp }}</p>
+                                    <h5 class="mt-0">{{ message.sender.username }}</h5>
+                                    {% if message.sender.profile.profile_picture %}
+                                        <img src="{{ message.sender.profile.profile_picture.url }}" alt="Фото профиля" style="height: 70px; width: 70px;">
+                                    {% else %}
+                                        <img src="URL_ДЛЯ_ИЗОБРАЖЕНИЯ_ПО_УМОЛЧАНИЮ" alt="Фото профиля">
+                                    {% endif %}
                                     <p>{{ message.content }}</p>
                                     <a href="{% url 'message_delete' pk=message.id %}" class="btn btn-danger">Удалить</a>
                                     <hr>
                                 </div>
                             </div>
                         {% endfor %}
+                    {% else %}
+                        <p>У вас пока нет сообщений.</p>
                     {% endif %}
                 </div>
             </div>
