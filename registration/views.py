@@ -5,8 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic import FormView, CreateView, TemplateView, UpdateView, DetailView, ListView, DeleteView
 
 from .forms import *
@@ -26,17 +27,16 @@ class Registration(CreateView):
         # Затем создаем профиль для пользователя
         profile = models.Profile.objects.create(user=user)
 
-        # Другие действия, которые вам могут понадобиться
-
         return super().form_valid(form)
 
 
 class Login(LoginView):
     template_name = 'registration/login.html'
-    success_url = reverse_lazy('profile')
 
     def get_success_url(self):
-        return self.success_url
+        # Получаем профиль текущего пользователя
+        user_profile = models.Profile.objects.get(user=self.request.user)
+        return reverse('profile', kwargs={'user_id': user_profile.user.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,19 +54,52 @@ class ProfileEdit(UpdateView):
     model = models.Profile
     form_class = ProfileForm
     template_name = 'registration/profile_edit.html'
-    success_url = reverse_lazy('profile')
+
+    def get_success_url(self):
+        # Получаем профиль текущего пользователя
+        user_profile = models.Profile.objects.get(user=self.request.user)
+        return reverse('profile', kwargs={'user_id': user_profile.user.id})
 
     def get_object(self, queryset=None):
         return self.request.user.profile
 
 
-class Profile(DetailView):
-    model = models.Profile
+class Profile(LoginRequiredMixin, DetailView):
+    model = Profile
     template_name = 'registration/profile.html'
 
     def get_object(self, queryset=None):
-        # Возвращаем профиль текущего пользователя
-        return models.Profile.objects.get(user=self.request.user)
+        user_id = self.kwargs.get('user_id')
+        return models.Profile.objects.get(user__id=user_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_id = self.kwargs.get('user_id')
+        context['posts'] = models.Post.objects.filter(author__id=user_id).order_by('-created_at')
+        context['post_form'] = PostForm()
+        context['comment_form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs.get('user_id')
+
+        if 'content' in request.POST and 'post_id' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.author = request.user
+                comment.post = models.Post.objects.get(id=request.POST.get('post_id'))
+                comment.save()
+                return redirect('profile', user_id=user_id)
+
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('profile', user_id=user_id)
+
+        return self.get(request, *args, **kwargs)
 
 
 class SendMessage(CreateView):
@@ -135,3 +168,34 @@ class MessageDeleteView(DeleteView):
         else:
             # Если текущий пользователь - получатель сообщения, перенаправляем на страницу отправителя
             return reverse('message_list', kwargs={'pk': message.sender.id})
+
+
+class PostDelete(LoginRequiredMixin, DeleteView):
+    model = Post
+    template_name = 'registration/post_delete.html'
+
+    def get_queryset(self):
+        # Проверка, что текущий пользователь является автором поста
+        return self.model.objects.filter(author=self.request.user)
+
+    def get_success_url(self):
+        # Получаем профиль текущего пользователя
+        user_profile = models.Profile.objects.get(user=self.request.user)
+        return reverse('profile', kwargs={'user_id': user_profile.user.id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Получаем профиль текущего пользователя
+        user_profile = models.Profile.objects.get(user=self.request.user)
+        context['user'] = user_profile.user
+        return context
+
+
+class CommentDelete(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'registration/comment_delete.html'
+
+    def get_success_url(self):
+        # Возвращаемся на страницу профиля автора поста после удаления комментария
+        post_author_id = self.object.post.author.id
+        return reverse('profile', kwargs={'user_id': post_author_id})
